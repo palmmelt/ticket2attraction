@@ -2,7 +2,7 @@
 
 ## Introduce
 
-The client is rushing to launch new project on next week, The backend team is on vacation at Ibiza beach, that's why you are the only one that can saves the day!.
+The client is rushing to launch new project on next week, The backend team is on vacation at Ibiza beach, that's why you are the only one who can saves the day!.
 
 ## Problems
 
