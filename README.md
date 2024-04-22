@@ -30,7 +30,7 @@ The client is rushing to launch new project on next week, The backend team is on
 - Can adjust quantity.
 - Calculate discount.
 - Display total price correctly.
-- (Extra) Create API servere.
+- (Extra) Create API server (By convert this prodject into next.js is fine).
 
 ## Wireframe
 
