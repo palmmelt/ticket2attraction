@@ -10,7 +10,8 @@ The client is rushing to launch new project on next week, The backend team is on
 - Create a list of ticket and cart checkout.
 - You can refactor anyway you want.
 - Try to build reusable hook for delegate between mock and API.
-- (Optional) You only have API mock, So you need to create API Server also.
+- We only have API mock (which is also incomplete).
+- (Optional) So you need to create API Server also.
 
 ## Requirements
 - As a user, I want to see a list of tickets.
@@ -21,6 +22,15 @@ The client is rushing to launch new project on next week, The backend team is on
 - As a user, I want to apply a discount coupon.
 - (Optional) As a user, I want to search ticket by title.
 - (Optional) As a user, I want to sorting ticket by price, title.
+
+## Feature Checklist
+- Completed API mock (both discount and ticket).
+- Create hook for the api (both discount and ticket).
+- Can add product.
+- Can adjust quantity.
+- Calculate discount.
+- Display total price correctly.
+- (Extra) Create API servere.
 
 ## Wireframe
 
