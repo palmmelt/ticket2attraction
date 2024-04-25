@@ -1,6 +1,12 @@
 const coupon = require("../mock/coupon.json");
 
 module.exports = function (app) {
+
+    app.get("/api/coupon/free",(req,res)=>{
+        res.json(coupon);
+    })
+
+
   //! check coupon
   app.post("/api/coupon/check", (req, res) => {
     try {
@@ -46,7 +52,7 @@ module.exports = function (app) {
         res.json({ status: "NoItem", data: { message: noCart } });
         return; 
       }
-      
+
       if (clientCoupon.length !== 0 && typeof readCoupon === "undefined") {
         res.json({ status: "NotFound", data: { message: cantFind } });
         return; 
