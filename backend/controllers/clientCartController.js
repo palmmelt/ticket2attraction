@@ -7,17 +7,23 @@ module.exports = function (app) {
     })
 
 
-  //! check coupon
+  //? check coupon
   app.post("/api/coupon/check", (req, res) => {
     try {
+
       const clientCoupon = req.body.coupon;
+
+      // use coupon to find the coupon obj
       const readCoupon = coupon.find(
         (c) => c.coupon === clientCoupon.toLowerCase()
       );
 
+      //  message out put
       const cantFind = "The coupon is invalid.";
       const found = "Coupon is available";
 
+
+      //! Check coupons 
       if (!readCoupon && clientCoupon !== 0) {
         res.json({
           status: "NotFound",
@@ -34,18 +40,18 @@ module.exports = function (app) {
     }
   });
 
-  //! payment
+  //? payment
   app.post("/api/request/buy", (req, res) => {
     try {
       const clientCoupon = req.body.coupon;
       const cartItems = req.body.cart;
 
-        //?  message out put
+        //  message out put
       const cantFind = "The coupon is invalid.";
       const bought = "Thank you and wish you happy traveling.";
       const noCart = "Please select product";
   
-      //use coupon to fetch the coupon obj
+      //use coupon to find the coupon obj
       const readCoupon = coupon.find(
         (c) => c.coupon.toLowerCase() === clientCoupon.toLowerCase()
       );
@@ -74,7 +80,7 @@ module.exports = function (app) {
       }, 0);
   
 
-      //? pre result to out put
+      // pre result to out put
       let result;
       if (typeof readCoupon !== "undefined") {
         result = total - Number(readCoupon.discount);

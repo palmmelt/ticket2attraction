@@ -34,6 +34,11 @@ function App() {
     setShowCart((prevState) => !prevState);
   };
 
+  const toggleShowInfomationPlace = () => {
+    setShowInfomation((prevState) => !prevState);
+  };
+
+
   //! event scroll mouse
   const handleScroll = () => {
     setHeaderScroll(window.scrollY >= 100);
@@ -60,9 +65,9 @@ function App() {
       <Header toggleShowCart={toggleShowCart} handleScroll={headerScroll}/>
       {/* <div style={{ height: "auto",display:"flex" }}></div> */}
       <SortPlacesBar places={places} setPlaces={setPlaces} />
-      <Tickets places={places} isLoading={isLoading} />
+      <Tickets places={places} isLoading={isLoading} openModalInformation={toggleShowInfomationPlace} />
       {showCart ? <CartModal closeModal={toggleShowCart} /> : ""}
-      {showInfomation ? <InformationPlace closeModal={toggleShowCart} /> : ""}
+      {showInfomation ? <InformationPlace closeModal={toggleShowInfomationPlace} /> : ""}
       <BackToTop handleScroll={headerScroll}/>
       <Footer />
     </div>

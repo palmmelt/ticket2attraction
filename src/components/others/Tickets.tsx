@@ -7,13 +7,13 @@ import FirstSubButton from "src/styles/components/buttons/FirstSubButton";
 import ListTickets from "src/styles/components/card/ListTickets";
 import { v4 as uuidv4 } from "uuid";
 
-const Tickets = ({
-  places,
-  isLoading,
-}: {
+interface TicketsProps {
+  openModalInformation: () => void;
   places: placesType[];
   isLoading: boolean;
-}) => {
+}
+
+const Tickets = ({ places, isLoading }: TicketsProps) => {
   const { cartItems, addToCart } = useCart();
 
   const placeList = places.map((place) => {
@@ -42,7 +42,7 @@ const Tickets = ({
               }}
             />
             <span
-            className="-card-label"
+              className="-card-label"
               style={{
                 position: "absolute",
                 width: "auto",
@@ -72,14 +72,16 @@ const Tickets = ({
                 style={{ height: "100%", cursor: "default" }}
               >
                 <h5 className="gap-2 h-5">
-                  <b style={{color:"red"}}>{place.price}</b>&nbsp;
+                  <b style={{ color: "red" }}>{place.price}</b>&nbsp;
                   <small className="text-muted red">THB</small>
                 </h5>
-                  <FirstSubButton onClick={() => {
-                      addToCart(place);
-                    }}>
-                    Add+
-                  </FirstSubButton>
+                <FirstSubButton
+                  onClick={() => {
+                    addToCart(place);
+                  }}
+                >
+                  Add+
+                </FirstSubButton>
               </div>
             </div>
           </div>
@@ -89,7 +91,10 @@ const Tickets = ({
   });
 
   return (
-    <div className="d-flex justify-content-center align-items-center" style={{ width: "100%", minHeight: "70vh" }}>
+    <div
+      className="d-flex justify-content-center align-items-center"
+      style={{ width: "100%", minHeight: "70vh" }}
+    >
       {isLoading ? (
         <BeatLoader color="rgb(245, 128, 38)" />
       ) : places.length === 0 ? (
