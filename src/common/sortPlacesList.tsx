@@ -1,3 +1,11 @@
+
+/** 
+  * This helper static sort for places list
+  * @param {string} sortby condition for sort
+  * @param {string} array array for sort
+  * @returns {object} new sort value
+*/
+
 const sortBy = (sortby: string, array: any[]): Array<any> => {
     let sortedPlaces = [...array];
 

@@ -39,25 +39,30 @@ module.exports = function (app) {
     try {
       const clientCoupon = req.body.coupon;
       const cartItems = req.body.cart;
-  
+
+        //?  message out put
       const cantFind = "The coupon is invalid.";
       const bought = "Thank you and wish you happy traveling.";
       const noCart = "Please select product";
   
+      //use coupon to fetch the coupon obj
       const readCoupon = coupon.find(
         (c) => c.coupon.toLowerCase() === clientCoupon.toLowerCase()
       );
   
+      //! check cart client
       if (cartItems.length == 0) {
         res.json({ status: "NoItem", data: { message: noCart } });
         return; 
       }
 
+      //! validate coupon
       if (clientCoupon.length !== 0 && typeof readCoupon === "undefined") {
         res.json({ status: "NotFound", data: { message: cantFind } });
         return; 
       }
   
+      // cartItems[] to calculation of order
       const total = cartItems.reduce((previousValue, currentItem) => {
         if (currentItem.amount !== undefined) {
           return (
@@ -68,6 +73,8 @@ module.exports = function (app) {
         }
       }, 0);
   
+
+      //? pre result to out put
       let result;
       if (typeof readCoupon !== "undefined") {
         result = total - Number(readCoupon.discount);
@@ -75,7 +82,9 @@ module.exports = function (app) {
         result = total;
       }
   
+      //! status ok, client can buy
       res.json({ status: "OK", data: { message: bought, bil: result } });
+
     } catch (error) {
       console.log(error);
     }

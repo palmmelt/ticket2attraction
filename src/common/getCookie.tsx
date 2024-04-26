@@ -1,6 +1,10 @@
+/** 
+  * This helper get data from cookie return the any data of cookies
+  * @param {string} name name cookie
+  * @returns {any} cookie value
+*/
 const getCookie = (name:string) => {
 
-    
     const cookieString = document.cookie;
     const cookies = cookieString.split(';');
     for (let cookie of cookies) {
@@ -12,7 +16,6 @@ const getCookie = (name:string) => {
     return null;
   }
   
-  const cartItems = getCookie('cartItems');
   
 
   export { getCookie };

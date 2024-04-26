@@ -19,7 +19,7 @@ enum Method {
 
 
   /** 
-  * This hook fetch data from url and return the isLoading respond states
+  * This helper fetch data from url and return the isLoading respond states
   * @param {string} url path to api call
   * @param {Method} method path to api call GET = "GET",POST = "POST",PUT = "PUT",DELETE = "DELETE",
   * @param {any} request req body to api
