@@ -3,7 +3,8 @@ import { useCart } from "../../contexts/CartContext";
 import { useState } from "react";
 import { Modal } from "react-bootstrap";
 import { BeatLoader } from "react-spinners";
-import FirstSubButton from "src/styles/components/FirstSubButton";
+import FirstSubButton from "src/styles/components/buttons/FirstSubButton";
+import ListTickets from "src/styles/components/card/ListTickets";
 import { v4 as uuidv4 } from "uuid";
 
 const Tickets = ({
@@ -23,7 +24,7 @@ const Tickets = ({
         style={{ height: "380px" }}
         key={uuid}
       >
-        <div className="m-1 border" style={{ height: "100%" }}>
+        <ListTickets>
           <div
             style={{
               position: "relative",
@@ -38,10 +39,10 @@ const Tickets = ({
                 aspectRatio: "3/2",
                 width: "100%",
                 transition: "transform 0.3s",
-                // transform: onHover ? "scale(1.1)" : "scale(1)",
               }}
             />
             <span
+            className="-card-label"
               style={{
                 position: "absolute",
                 width: "auto",
@@ -74,13 +75,6 @@ const Tickets = ({
                   <b style={{color:"red"}}>{place.price}</b>&nbsp;
                   <small className="text-muted red">THB</small>
                 </h5>
-                  {/* <button
-                    onClick={() => {
-                      addToCart(place);
-                    }}
-                  >
-                    Add
-                  </button> */}
                   <FirstSubButton onClick={() => {
                       addToCart(place);
                     }}>
@@ -89,13 +83,13 @@ const Tickets = ({
               </div>
             </div>
           </div>
-        </div>
+        </ListTickets>
       </div>
     );
   });
 
   return (
-    <div className="d-flex" style={{ width: "100%", minHeight: "70vh" }}>
+    <div className="d-flex justify-content-center align-items-center" style={{ width: "100%", minHeight: "70vh" }}>
       {isLoading ? (
         <BeatLoader color="rgb(245, 128, 38)" />
       ) : places.length === 0 ? (

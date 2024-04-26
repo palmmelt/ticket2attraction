@@ -1,15 +1,17 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
 
-interface InformationPlaceProps {
+interface InfomationPlaceModalProps {
   closeModal: () => void;
 }
 
 
 type Props = {}
 
-const InformationPlace = (props: InformationPlaceProps) => {
+const InformationPlace = ({ closeModal }: InfomationPlaceModalProps) => {
   return (
-    <div>InformationPlace</div>
+    <Modal show onHide={closeModal} >InformationPlace</Modal>
   )
 }
+
+export default InformationPlace

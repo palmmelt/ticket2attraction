@@ -53,7 +53,6 @@ const useFetch = ({
               data: res.data.data,
             },
           });
-          console.log(res);
         } else {
           console.error("Response is undefined");
         }
@@ -67,7 +66,6 @@ const useFetch = ({
     };
 
     fetchData();
-  // }, [url, method, data, headers]);
   }, []);
 
   return [state.isLoading, state.respond.data];

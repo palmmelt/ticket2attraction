@@ -4,14 +4,22 @@ import { useCart } from "../../contexts/CartContext";
 
 interface HeaderProps {
   toggleShowCart: () => void;
-  handleScroll:boolean;
+  handleScroll: boolean;
 }
 
-const Header = ({ toggleShowCart,handleScroll }: HeaderProps) => {
+const Header = ({ toggleShowCart, handleScroll }: HeaderProps) => {
   const { cartItems } = useCart();
 
   return (
-    <div className="border" style={{width:"100vw",position:'fixed',zIndex:"999",backgroundColor:"white"}}>
+    <div
+      className="border"
+      style={{
+        width: "100vw",
+        position: "fixed",
+        zIndex: "999",
+        backgroundColor: "white",
+      }}
+    >
       <div className="d-flex container justify-content-between px-3 py-2">
         <img
           src={ticket2attraction}
@@ -20,11 +28,28 @@ const Header = ({ toggleShowCart,handleScroll }: HeaderProps) => {
         />
 
         <div
-          className="d-flex align-items-center"
+          className="d-flex align-items-center gap-3"
           style={{ cursor: "pointer" }}
         >
+          <a
+            href="http://localhost:8080/api/coupon/free"
+            target="_blank"
+            style={{ color: "rgb(245, 128, 38)" }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              fill="currentColor"
+              className="bi bi-ticket-perforated"
+              viewBox="0 0 16 16"
+            >
+              <path d="M4 4.85v.9h1v-.9zm7 0v.9h1v-.9zm-7 1.8v.9h1v-.9zm7 0v.9h1v-.9zm-7 1.8v.9h1v-.9zm7 0v.9h1v-.9zm-7 1.8v.9h1v-.9zm7 0v.9h1v-.9z" />
+              <path d="M1.5 3A1.5 1.5 0 0 0 0 4.5V6a.5.5 0 0 0 .5.5 1.5 1.5 0 1 1 0 3 .5.5 0 0 0-.5.5v1.5A1.5 1.5 0 0 0 1.5 13h13a1.5 1.5 0 0 0 1.5-1.5V10a.5.5 0 0 0-.5-.5 1.5 1.5 0 0 1 0-3A.5.5 0 0 0 16 6V4.5A1.5 1.5 0 0 0 14.5 3zM1 4.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1.05a2.5 2.5 0 0 0 0 4.9v1.05a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1.05a2.5 2.5 0 0 0 0-4.9z" />
+            </svg>
+          </a>
           <a onClick={toggleShowCart} style={{ position: "relative" }}>
-          <svg
+            <svg
               xmlns="http://www.w3.org/2000/svg"
               width="32"
               height="32"

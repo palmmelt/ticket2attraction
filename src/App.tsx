@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useFetch } from "./hooks/useFetch";
 import SortPlacesBar from "./components/others/SortPlacesBar";
 import BackToTop from "./components/equipment/BackToTop";
+import InformationPlace from "./components/modals/InformationPlace";
 
 export interface placesType {
   name: any;
@@ -19,6 +20,7 @@ export interface placesType {
 
 function App() {
   const [showCart, setShowCart] = useState(false);
+  const [showInfomation, setShowInfomation] = useState(false);
   const [places, setPlaces] = useState<placesType[]>([]);
 
   const [headerScroll, setHeaderScroll] = useState(false);
@@ -60,6 +62,7 @@ function App() {
       <SortPlacesBar places={places} setPlaces={setPlaces} />
       <Tickets places={places} isLoading={isLoading} />
       {showCart ? <CartModal closeModal={toggleShowCart} /> : ""}
+      {showInfomation ? <InformationPlace closeModal={toggleShowCart} /> : ""}
       <BackToTop handleScroll={headerScroll}/>
       <Footer />
     </div>

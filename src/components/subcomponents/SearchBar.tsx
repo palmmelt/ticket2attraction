@@ -11,7 +11,6 @@ type Props = {
 const SearchBar = ({ array, setArray, urlRequest }: Props) => {
 
   const [inputSearch, setInputSearch] = useState("");
-  const [activeInput,setActiveInput] = useState(false);
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
@@ -28,9 +27,7 @@ const SearchBar = ({ array, setArray, urlRequest }: Props) => {
         headers: {},
       });
       if (res) {
-        console.log(res);
         setArray(res.data.data);
-        console.log(res);
       } else {
         console.error("Response is undefined");
       }
@@ -60,8 +57,6 @@ const SearchBar = ({ array, setArray, urlRequest }: Props) => {
         }}
         onChange={(e) => setInputSearch(e.target.value)}
         onKeyDown={(e) => handleKeyPress(e)}
-        onFocus={()=>setActiveInput(true)}
-        onMouseLeave={()=>setActiveInput(false)}
       />
       <button
         style={{

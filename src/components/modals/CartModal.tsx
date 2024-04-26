@@ -3,10 +3,11 @@ import { cartItemsType, useCart } from "../../contexts/CartContext";
 import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { ModalCartContainer } from "src/styles/classes/ModalCart";
-import MainButton from "src/styles/components/MainButton";
-import DangerButton from "src/styles/components/DangerButtom";
-import DisButton from "src/styles/components/DisButton";
+import MainButton from "src/styles/components/buttons/MainButton";
+import DangerButton from "src/styles/components/buttons/DangerButtom";
+import DisButton from "src/styles/components/buttons/DisButton";
 import Swal from "sweetalert2";
+import { Method, fetchAPI } from "src/common/fetchAPI";
 
 interface CartModalProps {
   closeModal: () => void;
@@ -16,11 +17,6 @@ type TicketBuy = {
   id: number;
   amount: number;
 };
-
-interface FormBuy {
-  coupon: string;
-  ticketSelected: TicketBuy[];
-}
 
 type supResponseCoupon = {
   message: string;
@@ -33,8 +29,7 @@ interface ResponseCoupon {
 }
 
 const CartModal = ({ closeModal }: CartModalProps) => {
-  const { cartItems, manangeTicket, removeFromCart,clearCart } = useCart();
-  // const [formBuy, setFormBuy] = useState<FormBuy>(initialFormBuy);
+  const { cartItems, manangeTicket, removeFromCart, clearCart } = useCart();
 
   const [coupon, setCoupon] = useState<string>("");
   const [resCoupon, setResCoupon] = useState<ResponseCoupon>(initialresCoupon);
@@ -47,7 +42,6 @@ const CartModal = ({ closeModal }: CartModalProps) => {
       return previousValue;
     }
   }, 0);
-
 
   //! Total price after used coupon
   const grandTotal = cartItems.reduce((previousValue, currentItem) => {
@@ -62,23 +56,18 @@ const CartModal = ({ closeModal }: CartModalProps) => {
     }
   }, 0);
 
-
   //! Change and check coupon
   const handleChangeCoupon = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setCoupon(e.target.value);
     if (e.target.value.length === 6) {
       try {
         //? Return Status "OK" | "NotFound" <String/> and Message
-        // const res = await axios({
-        //   url: "http://localhost:8080/api/coupon/check",
-        //   method: "POST",
-        //   data: { coupon: e.target.value },
-        // });
-        const res = await axios({
+        const res:any = await fetchAPI({
           url: "http://localhost:8080/api/coupon/check",
-          method: "POST",
-          data: { coupon: e.target.value },
+          method: Method.POST,
+          data: { coupon:  e.target.value  },
         });
+        console.log(res.data)
         setResCoupon(res.data);
       } catch (error) {
         console.error("Error:", error);
@@ -86,53 +75,55 @@ const CartModal = ({ closeModal }: CartModalProps) => {
     }
   };
 
-
   //! submit Order
-  const submitOrder = async ({cart,coupon}:{cart:cartItemsType[],coupon:string}) =>{
-      try {
-        
-          //? Return Status "OK" | "NotFound" <String/> and Message
-        const res = await axios({
-          url: "http://localhost:8080/api/request/buy",
-          method: "POST",
-          data: { cart:cart,coupon: coupon },
+  const submitOrder = async ({
+    cart,
+    coupon,
+  }: {
+    cart: cartItemsType[];
+    coupon: string;
+  }) => {
+    try {
+      //? Return Status "OK" | "NotFound" | NoItem <String/> and Message
+      const res:any = await fetchAPI({
+        url: "http://localhost:8080/api/request/buy",
+        method: Method.POST,
+        data: { cart: cart, coupon: coupon },
+      });
+      
+      if (res.data.status === "OK") {
+        clearCart();
+        closeModal();
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: res.data.data.message,
+          footer: `${res.data.data.bil} THB`,
+          showConfirmButton: false,
+          timer: 3000,
         });
-
-
-        if(res.data.status === "OK"){
-          clearCart();
-          closeModal();
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: res.data.data.message,
-            footer: `${res.data.data.bil} THB`,
-            showConfirmButton: false,
-            timer: 3000
-          });
-        }
-        if(res.data.status === "NotFound"){
-          Swal.fire({
-            icon: "error",
-            title: "The coupon is invalid.",
-            text: res.data.data.message,
-            timer: 3000
-          });
-        }
-        if(res.data.status === "NoItem"){
-          Swal.fire({
-            icon: "warning",
-            title: "Warning",
-            text: res.data.data.message,
-            timer: 3000
-          });
-          closeModal();
-        }
-      } catch (error) {
-        console.error("Error:", error);
       }
-  }
-
+      if (res.data.status === "NotFound") {
+        Swal.fire({
+          icon: "error",
+          title: "The coupon is invalid.",
+          text: res.data.data.message,
+          timer: 3000,
+        });
+      }
+      if (res.data.status === "NoItem") {
+        Swal.fire({
+          icon: "warning",
+          title: "Warning",
+          text: res.data.data.message,
+          timer: 3000,
+        });
+        closeModal();
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   //! List cart your selected
   const cartList = cartItems.map((c, index) => {
@@ -152,15 +143,27 @@ const CartModal = ({ closeModal }: CartModalProps) => {
           {c.price}
         </td>
         <td className="flex justify-content-center align-items-center gap-1">
-          <button onClick={() => manangeTicket(c.id, false)} style={{backgroundColor:"rgba(255, 178, 88,0)",border:"none"}}>-</button>
+          <button
+            onClick={() => manangeTicket(c.id, false)}
+            style={{ backgroundColor: "rgba(255, 178, 88,0)", border: "none" }}
+          >
+            -
+          </button>
           <span>{c.amount}</span>
-          <button onClick={() => manangeTicket(c.id, true)} style={{backgroundColor:"rgba(255, 178, 88,0)",border:"none"}}>+</button>
+          <button
+            onClick={() => manangeTicket(c.id, true)}
+            style={{ backgroundColor: "rgba(255, 178, 88,0)", border: "none" }}
+          >
+            +
+          </button>
         </td>
         <td className="flex justify-content-center align-items-center">
           {Number(c.price) * Number(c.amount)}
         </td>
         <td className="flex justify-content-center align-items-center">
-          <DangerButton onClick={() => c.key && removeFromCart(c.key)}>Remove</DangerButton>
+          <DangerButton onClick={() => c.key && removeFromCart(c.key)}>
+            Remove
+          </DangerButton>
         </td>
       </tr>
     );
@@ -171,7 +174,6 @@ const CartModal = ({ closeModal }: CartModalProps) => {
       <ModalCartContainer>
         <div
           className="d-flex flex-column -classes-modal-cart table-responsive"
-          // style={{ height: "60vh", width: "100%", overflowY: "scroll" }}
         >
           <table className="table">
             <thead>
@@ -206,19 +208,32 @@ const CartModal = ({ closeModal }: CartModalProps) => {
                 onChange={handleChangeCoupon}
                 placeholder="XXX-XXX"
                 maxLength={6}
-                style={{border:`1px solid ${resCoupon.status === "OK" ? 'green':'red'}`}}
+                style={{
+                  border: `1px solid ${
+                    resCoupon.status === "OK" ? "green" : "red"
+                  }`,
+                  paddingRight:'5px',
+                  paddingLeft:'5px',
+                }}
               />
             </span>
-            <span style={{color:"red"}}>{resCoupon.data.discount} THB</span>
-          </div >
-          <div className="d-flex justify-content-between px-3"><span>Grand Total</span> <span>{grandTotal < 0 ? 0 : grandTotal} THB</span></div>
+            <span style={{ color: "red" }}>{resCoupon.data.discount} THB</span>
+          </div>
+          <div className="d-flex justify-content-between px-3">
+            <span>Grand Total</span>{" "}
+            <span>{grandTotal < 0 ? 0 : grandTotal} THB</span>
+          </div>
         </div>
         <div
           className="d-flex justify-content-end align-items-end py-3 gap-3"
           style={{ width: "100%" }}
         >
-          <DisButton onClick={()=>closeModal()}>Close</DisButton>
-          <MainButton onClick={() => submitOrder({cart:cartItems,coupon:coupon})}>Buy</MainButton>
+          <DisButton onClick={() => closeModal()}>Close</DisButton>
+          <MainButton
+            onClick={() => submitOrder({ cart: cartItems, coupon: coupon })}
+          >
+            Buy
+          </MainButton>
         </div>
       </ModalCartContainer>
     </Modal>
